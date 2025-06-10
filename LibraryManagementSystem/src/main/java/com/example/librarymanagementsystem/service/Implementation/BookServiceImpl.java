@@ -38,7 +38,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book createBook(Book book) {
-        // إنشاء كائن Book جديد
+        
         Book newBook = new Book();
         newBook.setIsbn(book.getIsbn());
         newBook.setLanguage(book.getLanguage());
@@ -47,14 +47,14 @@ public class BookServiceImpl implements BookService {
         newBook.setEdition(book.getEdition());
         newBook.setPublicationYear(book.getPublicationYear());
 
-        // معالجة الناشر (Publisher)
+        
         if (book.getPublisher() != null && book.getPublisher().getPublisherId() != null) {
             Publisher publisher = publisherRepository.findById(book.getPublisher().getPublisherId())
                     .orElseThrow(() -> new EntityNotFoundException("Publisher not found with ID: " + book.getPublisher().getPublisherId()));
             newBook.setPublisher(publisher);
         }
 
-        // معالجة المؤلفين (Authors) - الطريقة الآمنة
+        
         if (book.getAuthors() != null && !book.getAuthors().isEmpty()) {
             Set<Long> authorIds = book.getAuthors().stream()
                     .map(Auther::getAutherId)
@@ -74,7 +74,7 @@ public class BookServiceImpl implements BookService {
             newBook.setAuthors(new HashSet<>(foundAuthors));
         }
 
-        // معالجة التصنيفات (Categories) - الطريقة الآمنة
+        
         if (book.getCategories() != null && !book.getCategories().isEmpty()) {
             Set<Long> categoryIds = book.getCategories().stream()
                     .map(Category::getCategoryId)
@@ -94,7 +94,7 @@ public class BookServiceImpl implements BookService {
             newBook.setCategories(new HashSet<>(foundCategories));
         }
 
-        // حفظ الكتاب في قاعدة البيانات
+    
         return bookRepository.save(newBook);
     }
 
