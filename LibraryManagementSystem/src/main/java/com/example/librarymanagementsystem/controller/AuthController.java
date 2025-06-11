@@ -44,7 +44,6 @@ public class AuthController {
 
         userRepository.save(user);
 
-        // Generate token after registration
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
         String token = jwtService.generateToken(userDetails);
 
@@ -73,7 +72,6 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout() {
-        // In JWT implementation, logout is handled client-side by discarding the token
         return ResponseEntity.ok("Logout successful - please discard your token");
     }
 }
